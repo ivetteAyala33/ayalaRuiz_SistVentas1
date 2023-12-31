@@ -24,6 +24,8 @@ public class Acceso extends javax.swing.JFrame {
             
     public Acceso() {
         initComponents();
+        //centra la aplicacion a la pantalla
+        setLocationRelativeTo(null);
         
     }
 
