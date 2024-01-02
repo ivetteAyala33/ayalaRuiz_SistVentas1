@@ -5,6 +5,7 @@ import conexion.ConexionBD;
 import java.awt.event.KeyEvent;
 import pojos.Usuario;
 import java.sql.*;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,7 +26,8 @@ public class SistemaVentas extends javax.swing.JFrame {
     Cliente objetoClienteN = new Cliente();
     Proveedor objetoProveN = new Proveedor();
     Producto objetoProdN = new Producto();
-    
+    int item;
+    DefaultTableModel modelo = new DefaultTableModel();
         
     public SistemaVentas() {
         initComponents();
@@ -70,6 +72,7 @@ public class SistemaVentas extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel30 = new javax.swing.JLabel();
         jTextField25 = new javax.swing.JTextField();
+        txtDescuento = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         lblRfcCliente = new javax.swing.JLabel();
         lblNombreCliente = new javax.swing.JLabel();
@@ -320,6 +323,17 @@ public class SistemaVentas extends javax.swing.JFrame {
             }
         });
 
+        txtCantVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCantVentaActionPerformed(evt);
+            }
+        });
+        txtCantVenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCantVentaKeyPressed(evt);
+            }
+        });
+
         txtPrecioVenta.setEditable(false);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar.png"))); // NOI18N
@@ -336,6 +350,12 @@ public class SistemaVentas extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jtDetalleVenta);
 
         lblStocVenta.setText("Stock");
+
+        txtStockVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtStockVentaActionPerformed(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel11.setText("Total a pagar: ");
@@ -384,6 +404,8 @@ public class SistemaVentas extends javax.swing.JFrame {
                                 .addComponent(txtPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(32, 32, 32)
                                 .addComponent(txtStockVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34)
+                                .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(lblCantVenta)
@@ -393,8 +415,7 @@ public class SistemaVentas extends javax.swing.JFrame {
                                 .addComponent(lblPrecioVenta)
                                 .addGap(89, 89, 89)
                                 .addComponent(lblStocVenta)
-                                .addGap(78, 78, 78)))
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(241, 241, 241))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(18, 18, 18)
@@ -403,7 +424,8 @@ public class SistemaVentas extends javax.swing.JFrame {
                         .addComponent(jLabel11)
                         .addGap(37, 37, 37)
                         .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1022, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1022, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -424,10 +446,12 @@ public class SistemaVentas extends javax.swing.JFrame {
                             .addComponent(txtCantVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtDescVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtStockVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtStockVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
@@ -1785,6 +1809,52 @@ public class SistemaVentas extends javax.swing.JFrame {
         
     }//GEN-LAST:event_txtCodVentaKeyPressed
 
+    private void txtCantVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantVentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantVentaActionPerformed
+
+    private void txtCantVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantVentaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (!"".equals(txtCantVenta.getText())) {
+                String cod = txtCodVenta.getText();
+                int cant = Integer.parseInt(txtCantVenta.getText());
+                String descrip = txtDescVenta.getText();
+                float preciov = Float.parseFloat(txtPrecioVenta.getText());
+                int desc = Integer.parseInt(txtDescuento.getText());
+                float totalv = cant * preciov;
+                        
+                JOptionPane.showMessageDialog(null, totalv);
+                int stock = Integer.parseInt(txtStockVenta.getText());
+                if (stock >= cant) {
+                    modelo = (DefaultTableModel) jtDetalleVenta.getModel();
+                    ArrayList lista = new ArrayList();
+                    lista.add(cod);
+                    lista.add(cant);
+                    lista.add(descrip);
+                    lista.add(preciov);
+                    lista.add(desc);
+                    lista.add(totalv);
+                    JOptionPane.showMessageDialog(null,lista);
+                    Object[] o= new Object[6];
+                    o[0] = lista.get(0);
+                    o[1] = lista.get(1);
+                    o[2] = lista.get(2);
+                    o[3] = lista.get(3);
+                    o[4] = lista.get(4);
+                    o[5] = lista.get(5);
+                    modelo.addRow(o);
+                    jtDetalleVenta.setModel(modelo);
+                } else {
+                    JOptionPane.showMessageDialog(null, "no hay stock suficiente");
+                }
+            }
+        }
+    }//GEN-LAST:event_txtCantVentaKeyPressed
+
+    private void txtStockVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockVentaActionPerformed
+        
+    }//GEN-LAST:event_txtStockVentaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1921,6 +1991,7 @@ public class SistemaVentas extends javax.swing.JFrame {
     private javax.swing.JTextField txtCpProve;
     private javax.swing.JTextField txtDescVenta;
     private javax.swing.JTextField txtDescipcion;
+    private javax.swing.JTextField txtDescuento;
     private javax.swing.JTextField txtDirCliente;
     private javax.swing.JTextField txtDirProve;
     private javax.swing.JTextField txtIdCliente;
